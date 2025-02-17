@@ -1,4 +1,5 @@
 
+
 ```markdown
 # React + Next.js Project
 
@@ -95,5 +96,4 @@ Jika Anda ingin berkontribusi pada proyek ini, ikuti langkah-langkah berikut:
 2. Buat branch baru untuk fitur atau perbaikan yang ingin Anda tambahkan.
 3. Lakukan perubahan dan uji aplikasi.
 4. Kirim pull request ke repositori utama.
-
 

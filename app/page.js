@@ -1,78 +1,62 @@
 "use client";
-
-import { useRef, useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
-import Card from "./components/Card";
-import Footer from "./components/Footer";
 
 export default function Home() {
-  const aboutRef = useRef(null);
-  const [search, setSearch] = useState("");
-
-  const scrollToAbout = () => {
-    aboutRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const handleSearch = () => {
-    console.log("Searching for:", search);
-  };
-
-  useEffect(() => {
-    // Menjalankan kode hanya di sisi client jika diperlukan
-    console.log("Component mounted on client side");
-  }, []);
-
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar onAboutClick={scrollToAbout} />
-
-      {/* SEARCH BAR */}
-      <div className="container mx-auto px-5 mt-20 mb-10 flex justify-center">
-        <div className="flex w-full md:w-1/2 border rounded-lg shadow-sm overflow-hidden">
-          <input
-            type="text"
-            placeholder="Cari sesuatu..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full p-3 focus:outline-none"
+    <div className="min-h-screen bg-gradient-to-br from-[#fde2ff] to-[#fad1e3]">
+      <Navbar />
+      
+      {/* HERO SECTION */}
+      <section className="min-h-screen flex flex-col justify-center items-center text-center px-5">
+        <h2 className="text-4xl md:text-6xl font-bold text-gray-800">
+          Modernisasi Pengalaman Mencari Kerja
+        </h2>
+        <p className="text-gray-600 mt-4 max-w-2xl">
+          Temukan dan lamar pekerjaan impian Anda dengan mudah. Telusuri berbagai lowongan dan dapatkan pekerjaan yang sesuai dengan keahlian Anda.
+        </p>
+        
+        {/* SEARCH BAR */}
+        <div className="mt-6 flex items-center border rounded-full shadow-lg bg-white w-[90%] md:w-1/2 overflow-hidden">
+          <input 
+            type="text" 
+            placeholder="Cari pekerjaan..." 
+            className="w-full p-4 focus:outline-none text-gray-700"
           />
-          <button
-            onClick={handleSearch}
-            className="bg-green-400 text-white px-5 py-3 hover:bg-green-700 transition-all"
-          >
-            Search
+          <button className="bg-pink-500 text-white px-6 py-4 rounded-full hover:bg-pink-700">
+            Cari
           </button>
         </div>
-      </div>
 
-      {/* CARD LIST */}
-      <main className="flex-1 container mx-auto px-5 grid grid-cols-1 md:grid-cols-3 gap-5 mt-10">
-        <Card title="Card 1" description="Deskripsi card pertama." />
-        <Card title="Card 2" description="Deskripsi card kedua." />
-        <Card title="Card 3" description="Deskripsi card ketiga." />
-      </main>
+        {/* INFO & STATISTIK */}
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5 max-w-5xl">
+          {/* Kategori */}
+          <div className="p-6 bg-white shadow-md rounded-xl text-center">
+            <h3 className="text-pink-500 text-xl font-semibold">Kategori Pekerjaan</h3>
+            <div className="flex justify-center mt-3">
+              <div className="w-12 h-12 bg-pink-100 text-pink-600 flex items-center justify-center rounded-full">??</div>
+            </div>
+            <p className="text-gray-600 mt-2">Produk, Konten, Keuangan, Desain</p>
+          </div>
 
-      {/* SECTION ABOUT */}
-      <section
-        ref={aboutRef}
-        className="container mx-auto p-5 bg-gray-100 rounded-lg mt-40"
-      >
-        <h2 className="text-2xl font-bold text-center mb-4">About Us</h2>
-        <p className="text-gray-700 text-center">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum is simply dummy text of the printing and
-          typesetting industry. Lorem Ipsum has been the standard dummy text
-          ever since the 1500s, when an unknown printer took a galley of type
-          and scrambled it to make a type specimen book. It has survived not
-          only five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged. It was popularised in the 1960s with
-          the release of Letraset sheets containing Lorem Ipsum passages, and
-          more recently with desktop publishing software like Aldus PageMaker
-          including versions of Lorem Ipsum.
-        </p>
+          {/* Statistik */}
+          <div className="p-6 bg-white shadow-md rounded-xl text-center">
+            <h3 className="text-purple-500 text-xl font-semibold">Efisiensi Meningkat</h3>
+            <div className="flex justify-center mt-3">
+              <div className="w-12 h-12 bg-purple-100 text-purple-600 flex items-center justify-center rounded-full">?</div>
+            </div>
+            <p className="text-gray-600 mt-2">80% lebih efisien</p>
+          </div>
+
+          {/* Desain Engineer */}
+          <div className="p-6 bg-white shadow-md rounded-xl text-center">
+            <h3 className="text-blue-500 text-xl font-semibold">Desain & Engineer</h3>
+            <div className="flex justify-center mt-3">
+              <div className="w-12 h-12 bg-blue-100 text-blue-600 flex items-center justify-center rounded-full">??</div>
+            </div>
+            <p className="text-gray-600 mt-2">Pelajari lebih lanjut</p>
+          </div>
+        </div>
       </section>
-
-      <Footer />
     </div>
   );
 }
