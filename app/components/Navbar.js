@@ -47,13 +47,13 @@ export default function Navbar() {
           {isLoggedIn ? (
             <button
               onClick={handleLogout}
-              className="px-4 py-2 border bg-pink-500 text-white rounded-lg hover:bg-pink-700"
+              className="px-4 py-2 border bg-blue-500 text-white rounded-full hover:bg-blue-700"
             >
               Logout
             </button>
           ) : (
             <Link href="/login">
-              <button className="px-4 py-2 border bg-pink-500 text-white rounded-lg hover:bg-pink-700">
+              <button className="px-4 py-2 border bg-blue-500 text-white rounded-full hover:bg-blue-700">
                 Login
               </button>
             </Link>
