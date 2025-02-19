@@ -2,23 +2,23 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { login, register } from "../services/auth";
-import { FaEye, FaEyeSlash, FaStar } from "react-icons/fa"; 
+import { FaEye, FaEyeSlash, FaStar } from "react-icons/fa";
 import Link from "next/link";
 
 export default function LoginPage() {
   const [isRegister, setIsRegister] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState(""); 
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
-  const [isMounted, setIsMounted] = useState(false); 
-  const [showPassword, setShowPassword] = useState(false); 
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false); 
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isMounted, setIsMounted] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
 
-  const router = useRouter(); 
+  const router = useRouter();
 
   const testimonials = [
     {
@@ -62,23 +62,22 @@ export default function LoginPage() {
       ? { name, email, password, password_confirmation: confirmPassword }
       : { email, password };
 
-    console.log("Data yang dikirim ke API:", userData);
-
     try {
-      setIsLoading(true); 
+      setIsLoading(true);
       const response = isRegister
         ? await register(userData)
         : await login(userData);
-
-      console.log("Respons dari API:", response);
       localStorage.setItem("token", response.token);
 
+      // Menyimpan nama pengguna di localStorage setelah login atau registrasi
       if (isRegister) {
+        localStorage.setItem("name", name); 
         setIsRegister(false);
-        setEmail(""); 
-        setPassword(""); 
-        setConfirmPassword(""); 
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
       } else {
+        localStorage.setItem("name", response.name || "Pengguna"); 
         router.push("/"); 
       }
     } catch (err) {
@@ -131,7 +130,6 @@ export default function LoginPage() {
               >
                 <p className="text-gray-200 italic">{testi.text}</p>
                 <p className="text-black font-semibold mt-2">- {testi.name}</p>
-
                 <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
                   {[...Array(3)].map((_, i) => (
                     <FaStar key={i} className="text-yellow-400 text-sm" />
