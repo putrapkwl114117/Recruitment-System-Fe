@@ -172,7 +172,7 @@ export default function LoginPage() {
                     placeholder="Nama"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-4 py-2 border rounded-md"
+                    className="text-gray-500 w-full px-4 py-2 border rounded-md"
                   />
                 </div>
                 <div className="mb-4">
@@ -182,7 +182,7 @@ export default function LoginPage() {
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-2 border rounded-md"
+                    className="text-gray-500 w-full px-4 py-2 border rounded-md"
                   />
                 </div>
                 <div className="mb-4">
@@ -193,7 +193,7 @@ export default function LoginPage() {
                       placeholder="Password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full px-4 py-2 border rounded-md"
+                      className="text-gray-500 w-full px-4 py-2 border rounded-md"
                     />
                     <span
                       onClick={() => setShowPassword(!showPassword)}
@@ -213,7 +213,7 @@ export default function LoginPage() {
                       placeholder="Confirm Password"
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="w-full px-4 py-2 border rounded-md"
+                      className="text-gray-500 w-full px-4 py-2 border rounded-md"
                     />
                     <span
                       onClick={() =>
@@ -259,7 +259,7 @@ export default function LoginPage() {
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-2 border rounded-md"
+                    className="text-gray-500 w-full px-4 py-2 border rounded-md"
                   />
                 </div>
                 <div className="mb-6">
@@ -270,7 +270,7 @@ export default function LoginPage() {
                       placeholder="Password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full px-4 py-2 border rounded-md"
+                      className="text-gray-500 w-full px-4 py-2 border rounded-md"
                     />
                     <span
                       onClick={() => setShowPassword(!showPassword)}

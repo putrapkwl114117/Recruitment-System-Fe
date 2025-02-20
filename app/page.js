@@ -3,10 +3,11 @@ import { useState } from 'react';
 import Navbar from "./components/Navbar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faClock, faSackDollar } from '@fortawesome/free-solid-svg-icons';
+import Footer from './components/Footer';
+import JobForm from './components/JobForm';
 
 const Modal = ({ closeModal, job, type }) => {
-  return (
-
+  return (    
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg w-3/4 md:w-1/2">
         {type === "jobDetails" && job ? (
@@ -39,16 +40,17 @@ const Modal = ({ closeModal, job, type }) => {
           </>
         ) : (
           <>
-            <h2 className="text-xl font-semibold mb-2 text-center text-red-600">AKSES DIBATASI !</h2>
+            {/* <h2 className="text-xl font-semibold mb-2 text-center text-red-600">AKSES DIBATASI !</h2>
             <p className="text-gray-600 mb-4 text-center">
               Anda harus login atau daftar terlebih dahulu untuk memposting lowongan kerja.
-            </p>
+            </p> */}
+            <JobForm /> 
           </>
         )}
         
         <div className="w-full bg-gray-100 h-[3px] my-4"></div>
         <div className="flex justify-end mt-4">
-          <button onClick={closeModal} className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-700">Close</button>
+          <button onClick={closeModal} className="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-700">Tutup</button>
         </div>
       </div>
     </div>
@@ -151,7 +153,7 @@ const Home = () => {
       </section>
 
       <section className="flex flex-col px-5 items-center">
-        <div className="mt-5 flex items-center border rounded-full shadow-lg bg-white w-[90%] md:w-1/2 overflow-hidden">
+        <div className="mt-6 flex items-center border rounded-full shadow-lg bg-white w-[90%] md:w-1/2 overflow-hidden">
           <input 
             type="text" 
             placeholder="Cari Pekerjaan..." 
@@ -210,6 +212,8 @@ const Home = () => {
         </div>
       </section>
 
+      <Footer />
+      
       {isModalOpen && <Modal closeModal={closeModal} job={selectedJob} type={modalType} />}
     </div>
   );

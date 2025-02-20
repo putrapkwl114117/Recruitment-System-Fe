@@ -27,3 +27,7 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.jodit * {
+  @apply text-black !important;
+}
