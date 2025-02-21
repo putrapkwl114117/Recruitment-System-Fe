@@ -2,7 +2,7 @@ import { FaUserEdit } from "react-icons/fa";
 
 const ProfileCard = () => {
   return (
-    <div className="w-[330px] bg-white rounded-xl shadow-md p-6 mt-0">
+    <div className="w-[300px] h-full bg-white rounded-xl shadow-md p-6 mt-0">
       {/* Profile Section */}
       <div className="flex flex-col items-center mb-4">
         {" "}
@@ -32,6 +32,10 @@ const ProfileCard = () => {
         <div className="bg-gray-100 p-4 rounded-lg shadow">
           <h3 className="font-semibold">Backend Developer</h3>
           <p className="text-gray-600">Deskripsi singkat lowongan 3.</p>
+        </div>
+        <div className="bg-gray-100 p-4 rounded-lg shadow">
+          <h3 className="font-semibold">Fullstack Developer</h3>
+          <p className="text-gray-600">Deskripsi singkat lowongan 2.</p>
         </div>
       </div>
       <div className="mt-4">

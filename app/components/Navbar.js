@@ -72,17 +72,17 @@ export default function Navbar() {
                           className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                           onClick={() => setShowMenu(false)}
                         >
-                          Manage Job
+                          Manage Jobs
                         </Link>
                       </li>
                       <li>
-                        <Link
-                          href="/profile"
-                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                        <button
+                          disabled
+                          className="block px-4 py-2 text-gray-400"
                           onClick={() => setShowMenu(false)}
                         >
                           Profile
-                        </Link>
+                        </button>
                       </li>
                       <li>
                         <button

@@ -29,5 +29,5 @@ body {
 }
 
 .jodit * {
-  @apply text-black !important;
+  @apply text-[#1a1a1a] !important;
 }

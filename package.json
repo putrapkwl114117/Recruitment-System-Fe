@@ -13,10 +13,17 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "axios": "^1.7.9",
     "jodit-react": "^5.2.14",
+    "jwt-decode": "^4.0.0",
     "next": "15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-html-parser": "^2.0.2",
     "react-icons": "^5.4.0"
+  },
+  "overrides": {
+    "react-html-parser": {
+      "react": "^19.0.0"
+    }
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
