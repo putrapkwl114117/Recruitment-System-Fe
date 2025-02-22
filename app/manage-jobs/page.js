@@ -1,62 +1,133 @@
 "use client";
-
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { FaSearch } from "react-icons/fa";
 import Sidebar from "../components/Sidebar";
 import JobCard from "../components/JobCard";
 import ProfileCard from "../components/ProfileCard";
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { FaSearch } from "react-icons/fa";
+import JobService from "../services/jobsendpoints";
+import JobForm from "../components/FormJob";
+import JobDetail from "../components/JobDetail";
+import ConfirmDeleteModal from "../components/DeleteModal"; // Import the modal
 
 export default function ManageJobs() {
   const [jobs, setJobs] = useState([]);
   const [search, setSearch] = useState("");
+  const [userId, setUserId] = useState(null);
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [message, setMessage] = useState({ text: "", type: "" });
+  const [editingJob, setEditingJob] = useState(null);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const [jobToDelete, setJobToDelete] = useState(null);
+  const [selectedJob, setSelectedJob] = useState(null);
+
+  const router = useRouter();
 
   useEffect(() => {
-    setJobs([
-      {
-        id: 1,
-        title: "Software Engineer",
-        company: "Tech Corp",
-        location: "Jakarta",
-        type: "Full-time",
-      },
-      {
-        id: 2,
-        title: "UI/UX Designer",
-        company: "Creative Studio",
-        location: "Bandung",
-        type: "Remote",
-      },
-      {
-        id: 3,
-        title: "Product Manager",
-        company: "Startup XYZ",
-        location: "Yogyakarta",
-        type: "Hybrid",
-      },
-      {
-        id: 4,
-        title: "Data Analyst",
-        company: "Data Corp",
-        location: "Surabaya",
-        type: "Full-time",
-      },
-    ]);
+    const storedUserId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.error("User is not logged in.");
+      router.push("/login");
+      return;
+    }
+
+    if (storedUserId) {
+      setUserId(storedUserId);
+    } else {
+      console.error("User ID not found in local storage.");
+      return;
+    }
+
+    JobService.getJobs(storedUserId)
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setJobs(data);
+        } else {
+          console.error("Invalid data format:", data);
+        }
+      })
+      .catch((error) => {
+        console.error(
+          "Failed to fetch jobs:",
+          error.response ? error.response.data : error
+        );
+      });
   }, []);
+
+  const openForm = (job = null) => {
+    setIsFormVisible(true);
+    setEditingJob(job);
+    setSelectedJob(null);
+  };
+
+  const closeForm = () => {
+    setIsFormVisible(false);
+    setEditingJob(null);
+  };
+
+  const handleFormSubmit = () => {
+    setMessage({
+      text: "Pekerjaan berhasil ditambahkan atau diperbarui!",
+      type: "success",
+    });
+    setTimeout(() => {
+      setMessage({ text: "", type: "" });
+      closeForm();
+    }, 2000);
+  };
+
+  const handleEditJob = async (jobId) => {
+    try {
+      const job = await JobService.getJobById(jobId);
+      openForm(job);
+    } catch (error) {
+      console.error("Failed to fetch job:", error);
+    }
+  };
+
+  const handleDeleteJob = (jobId) => {
+    setJobToDelete(jobId);
+    setIsDeleteModalVisible(true);
+  };
+
+  const confirmDelete = () => {
+    if (jobToDelete) {
+      JobService.deleteJob(jobToDelete)
+        .then(() => {
+          setJobs(jobs.filter((job) => job.id !== jobToDelete));
+          setMessage({ text: "Pekerjaan berhasil dihapus!", type: "success" });
+        })
+        .catch((error) => {
+          console.error("Failed to delete job:", error);
+          setMessage({ text: "Gagal menghapus pekerjaan!", type: "error" });
+        })
+        .finally(() => {
+          setIsDeleteModalVisible(false);
+          setJobToDelete(null);
+        });
+    }
+  };
+
+  const cancelDelete = () => {
+    setIsDeleteModalVisible(false);
+    setJobToDelete(null);
+  };
+
+  const handleJobClick = (job) => {
+    setSelectedJob(job);
+    setIsFormVisible(false);
+  };
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar */}
       <Sidebar />
-
-      {/* Main Content */}
       <div className="flex-1 p-4">
-        {/* Header + Search */}
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800 ml-4">Manage Jobs</h1>
-
-          {/* Search Bar */}
-          <div className="flex items-center bg-white border rounded-full overflow-hidden shadow-sm w-72 -mr-80 p-0 ">
+          <div className="flex items-center bg-white border rounded-full overflow-hidden shadow-sm w-72 p-0 -mr-80">
             <input
               type="text"
               placeholder="Cari Pekerjaan..."
@@ -70,14 +141,23 @@ export default function ManageJobs() {
           </div>
         </div>
 
-       {/* Tombol Aksi */}
+        {message.text && (
+          <div
+            className={`mb-4 text-center font-bold ${
+              message.type === "success" ? "text-green-500" : "text-red-500"
+            }`}
+          >
+            {message.text}
+          </div>
+        )}
+
         <div className="flex space-x-4 mb-6 ml-28">
-          <Link
-            href="#"
+          <button
+            onClick={() => openForm()}
             className="bg-white text-black px-4 py-2 rounded-lg hover:bg-blue-500 hover:text-white shadow transition-colors duration-300"
           >
             + Tambah Lowongan
-          </Link>
+          </button>
           <Link
             href="#"
             className="bg-white text-black px-4 py-2 rounded-lg hover:bg-blue-500 hover:text-white shadow transition-colors duration-300"
@@ -91,31 +171,44 @@ export default function ManageJobs() {
             Pendaftar
           </Link>
         </div>
-        
-        {/* Job List */}
-        <div>
-          <div className="inline-grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-3 ml-4">
-            {jobs.length > 0 ? (
-              jobs
-                .filter((job) =>
-                  job.title.toLowerCase().includes(search.toLowerCase())
-                )
-                .map((job) => <JobCard key={job.id} job={job} />)
-            ) : (
-              <p className="text-gray-500">
-                Tidak ada pekerjaan yang ditemukan.
-              </p>
-            )}
-          </div>
+
+        <div className="relative">
+          {selectedJob ? (
+            <JobDetail job={selectedJob} onClose={() => setSelectedJob(null)} />
+          ) : isFormVisible ? (
+            <JobForm
+              onClose={closeForm}
+              onSubmit={handleFormSubmit}
+              job={editingJob}
+            />
+          ) : (
+            <div className="inline-grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-3 ml-4">
+              {jobs.map((job) => (
+                <JobCard
+                  key={job.id}
+                  job={job}
+                  onEdit={() => handleEditJob(job.id)}
+                  onDelete={() => handleDeleteJob(job.id)}
+                  onClick={handleJobClick}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
-      {/* ProfileCard */}
       <div className="mb-0 mt-14 p-0">
         <div className="mt-14 mr-16 p-0">
           <ProfileCard />
         </div>
       </div>
+
+      {/* Confirmation Modal */}
+      <ConfirmDeleteModal
+        isVisible={isDeleteModalVisible}
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
     </div>
   );
 }

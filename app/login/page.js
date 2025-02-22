@@ -67,22 +67,24 @@ export default function LoginPage() {
       const response = isRegister
         ? await register(userData)
         : await login(userData);
+
       localStorage.setItem("token", response.token);
 
-      // Menyimpan nama pengguna di localStorage setelah login atau registrasi
+      // Menyimpan user ID dan nama pengguna setelah login atau registrasi
       if (isRegister) {
-        localStorage.setItem("name", name); 
+        localStorage.setItem("userId", response.user_id); // Menggunakan response.user_id
+        localStorage.setItem("name", name);
         setIsRegister(false);
         setEmail("");
         setPassword("");
         setConfirmPassword("");
       } else {
-        localStorage.setItem("name", response.name || "Pengguna"); 
-        router.push("/"); 
+        localStorage.setItem("userId", response.user_id); // Menggunakan response.user_id
+        localStorage.setItem("name", response.name || "Pengguna");
+        router.push("/");
       }
     } catch (err) {
       console.error("Error dari API:", err);
-
       if (err.response) {
         setError(err.response.data.message || "Terjadi kesalahan");
       } else {
@@ -93,9 +95,6 @@ export default function LoginPage() {
     }
   };
 
-  if (!isMounted) {
-    return null;
-  }
 
   return (
     <div className="min-h-screen flex bg-gray-100">
