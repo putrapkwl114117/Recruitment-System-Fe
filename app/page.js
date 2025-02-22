@@ -5,6 +5,7 @@ import JobService from "./services/jobsendpoints";
 import JobCard from "./components/Card";
 import PostJobButton from "./components/PostJob";
 import Modal from "./components/ModalCardHome";
+import Link from "next/link";
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,7 +18,7 @@ const Home = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const jobsData = await JobService.getAllJobs(); 
+        const jobsData = await JobService.getAllJobs();
         setJobs(jobsData);
       } catch (error) {
         console.error("Error fetching jobs:", error);
@@ -49,6 +50,11 @@ const Home = () => {
     setSelectedJob(null);
   };
 
+  const checkLoginStatus = () => {
+    const token = localStorage.getItem("token");
+    return token;
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
@@ -74,7 +80,14 @@ const Home = () => {
             </span>{" "}
             Anda sekarang!
           </p>
-          <PostJobButton openModal={openModal} />
+
+          {/* Tombol Posting Pekerjaan */}
+          <Link
+            href={checkLoginStatus() ? "/manage-jobs" : "/login"}
+            className="bg-blue-500 text-white px-6 py-4 rounded-full hover:bg-blue-700 transform hover:scale-110 hover:translate-y-2 transition-all duration-300 ease-in-out mt-4"
+          >
+            Posting Pekerjaan
+          </Link>
         </div>
       </section>
 

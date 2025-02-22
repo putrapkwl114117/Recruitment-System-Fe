@@ -1,11 +1,37 @@
+import React from "react"; // Tambahkan ini
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot, faClock, faSackDollar } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link"; 
+import {
+  faLocationDot,
+  faClock,
+  faSackDollar,
+} from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 const Modal = ({ closeModal, job, type }) => {
   const checkLoginStatus = () => {
-    const token = localStorage.getItem("token"); 
+    const token = localStorage.getItem("token");
     return token;
+  };
+
+  // Potong deskripsi menjadi 100 kata
+  const getShortDescription = (description) => {
+    const words = description.split(" ");
+    if (words.length > 100) {
+      return words.slice(0, 100).join(" ") + "...";
+    }
+    return description;
+  };
+
+  const [showFullDescription, setShowFullDescription] = React.useState(false);
+
+  const handlePostJobClick = () => {
+    if (checkLoginStatus()) {
+      // Jika sudah login, arahkan ke /manage-jobs
+      window.location.href = "/manage-jobs";
+    } else {
+      // Jika belum login, arahkan ke /login
+      window.location.href = "/login";
+    }
   };
 
   return (
@@ -36,22 +62,23 @@ const Modal = ({ closeModal, job, type }) => {
               </span>
             </div>
             <div className="w-full bg-gray-100 h-[3px]"></div>
-            <p className="mt-4 text-[#555555] text-justify">
+            <p className="mt-4 text-[#555555] text-justify max-h-[200px] overflow-x-auto">
               <span className="font-semibold">DESKRIPSI:</span> <br />
-              {job.description}
+              {showFullDescription
+                ? job.description
+                : getShortDescription(job.description)}
             </p>
+            {job.description.split(" ").length > 100 &&
+              !showFullDescription && (
+                <button
+                  onClick={() => setShowFullDescription(true)}
+                  className="text-blue-500 text-sm mt-2"
+                >
+                  Baca Selengkapnya
+                </button>
+              )}
           </>
-        ) : (
-          <>
-            <h2 className="text-xl font-semibold mb-2 text-center text-red-600">
-              AKSES DIBATASI!
-            </h2>
-            <p className="text-gray-600 mb-4 text-center">
-              Anda harus login atau daftar terlebih dahulu untuk memposting
-              lowongan kerja.
-            </p>
-          </>
-        )}
+        ) : null}
 
         <div className="w-full bg-gray-100 h-[3px] my-4"></div>
         <div className="flex justify-between mt-4">
@@ -61,19 +88,12 @@ const Modal = ({ closeModal, job, type }) => {
           >
             Close
           </button>
-          {checkLoginStatus() ? (
-            <Link href="/manage-jobs">
-              <button className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-700">
-                Posting Pekerjaan
-              </button>
-            </Link>
-          ) : (
-            <Link href="/login">
-              <button className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-700">
-                Login
-              </button>
-            </Link>
-          )}
+          <button
+            onClick={handlePostJobClick}
+            className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-700"
+          >
+            Daftar
+          </button>
         </div>
       </div>
     </div>
