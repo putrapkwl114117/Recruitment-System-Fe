@@ -164,8 +164,8 @@ export default function LoginPage() {
               </h2>
               <form onSubmit={handleSubmit} className="mt-6">
                 {error && <p className="text-red-500">{error}</p>}
-                <div className="mb-4">
-                  <label className="block text-gray-600">Nama</label>
+                <div className="mb-4 text-gray-600">
+                  <label className="block">Nama</label>
                   <input
                     type="text"
                     placeholder="Nama"
@@ -174,8 +174,8 @@ export default function LoginPage() {
                     className="w-full px-4 py-2 border rounded-md"
                   />
                 </div>
-                <div className="mb-4">
-                  <label className="block text-gray-600">Email</label>
+                <div className="mb-4 text-gray-600">
+                  <label className="block">Email</label>
                   <input
                     type="email"
                     placeholder="Email"
@@ -184,8 +184,8 @@ export default function LoginPage() {
                     className="w-full px-4 py-2 border rounded-md"
                   />
                 </div>
-                <div className="mb-4">
-                  <label className="block text-gray-600">Password</label>
+                <div className="mb-4 text-gray-600">
+                  <label className="block">Password</label>
                   <div className="relative">
                     <input
                       type={showPassword ? "text" : "password"}
@@ -202,8 +202,8 @@ export default function LoginPage() {
                     </span>
                   </div>
                 </div>
-                <div className="mb-6">
-                  <label className="block text-gray-600">
+                <div className="mb-6 text-gray-600">
+                  <label className="block">
                     Confirm Password
                   </label>
                   <div className="relative">
@@ -251,8 +251,8 @@ export default function LoginPage() {
               </h2>
               <form onSubmit={handleSubmit} className="mt-6">
                 {error && <p className="text-red-500">{error}</p>}
-                <div className="mb-4">
-                  <label className="block text-gray-600">Email</label>
+                <div className="mb-4 text-gray-600">
+                  <label className="block">Email</label>
                   <input
                     type="email"
                     placeholder="Email"
@@ -261,8 +261,8 @@ export default function LoginPage() {
                     className="w-full px-4 py-2 border rounded-md"
                   />
                 </div>
-                <div className="mb-6">
-                  <label className="block text-gray-600">Password</label>
+                <div className="mb-6 text-gray-600">
+                  <label className="block">Password</label>
                   <div className="relative">
                     <input
                       type={showPassword ? "text" : "password"}
