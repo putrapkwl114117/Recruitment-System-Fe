@@ -1,4 +1,3 @@
-// pages/Home.js
 "use client";
 import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
@@ -6,35 +5,26 @@ import JobService from "./services/jobsendpoints";
 import JobCard from "./components/Card";
 import PostJobButton from "./components/PostJob";
 import Modal from "./components/ModalCardHome";
-import Link from "next/link";
-import { useRouter } from "next/router"; // Menggunakan router untuk pengalihan
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
+  const [modalType, setModalType] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [jobs, setJobs] = useState([]);
-  const router = useRouter(); // Router untuk melakukan pengalihan
 
   useEffect(() => {
-    // Memeriksa apakah user sudah login
-    const token = localStorage.getItem("auth_token"); // Misalnya token disimpan di localStorage
-    if (!token) {
-      // Jika belum login, arahkan ke halaman login
-      router.push("/login");
-    }
-
     const fetchJobs = async () => {
       try {
-        const jobsData = await JobService.getAllJobs(); // Ambil semua pekerjaan
+        const jobsData = await JobService.getAllJobs(); 
         setJobs(jobsData);
       } catch (error) {
         console.error("Error fetching jobs:", error);
       }
     };
     fetchJobs();
-  }, [router]); // Dependensi router untuk melakukan pengalihan
+  }, []);
 
   const filteredJobs = jobs.filter(
     (job) =>
@@ -48,8 +38,9 @@ const Home = () => {
     setSearchQuery(searchTerm);
   };
 
-  const openModal = (job) => {
+  const openModal = (type, job = null) => {
     setSelectedJob(job);
+    setModalType(type);
     setIsModalOpen(true);
   };
 
@@ -74,32 +65,16 @@ const Home = () => {
           </h2>
           <p className="text-gray-600 mt-4 max-w-4xl mx-auto text-center">
             Jelajahi berbagai peluang kerja yang sesuai dengan keahlian dan
-            tujuan Anda. Baik Anda mencari pekerjaan tetap, freelance, atau
-            proyek jangka pendek, semuanya ada di sini!
+            tujuan Anda.
             <br />
-            <br />
-            Ingin merekrut tenaga profesional atau menawarkan jasa?
+            Ingin merekrut tenaga profesional atau menawarkan jasa?{" "}
             <span className="font-semibold text-blue-600">
               {" "}
-              Posting pekerjaan{" "}
-            </span>
-            Anda sekarang dan temukan orang yang tepat dalam hitungan menit!
+              Posting pekerjaan
+            </span>{" "}
+            Anda sekarang!
           </p>
-          {/* Tombol posting pekerjaan dengan pengecekan login */}
-          <button
-            className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-700 mt-6"
-            onClick={() => {
-              // Pengecekan login sebelum pengalihan
-              const token = localStorage.getItem("auth_token");
-              if (token) {
-                router.push("/manage-jobs"); // Arahkan ke manage-jobs jika sudah login
-              } else {
-                router.push("/login"); // Arahkan ke login jika belum login
-              }
-            }}
-          >
-            Posting Pekerjaan
-          </button>
+          <PostJobButton openModal={openModal} />
         </div>
       </section>
 
@@ -124,9 +99,7 @@ const Home = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-5 py-5">
           {filteredJobs.length > 0 ? (
             filteredJobs.map((job, index) => (
-              <div key={index} onClick={() => openModal(job)}>
-                <JobCard job={job} />
-              </div>
+              <JobCard key={index} job={job} openModal={openModal} />
             ))
           ) : (
             <div className="col-span-1 md:col-span-4 flex items-center justify-center py-10">
@@ -138,7 +111,9 @@ const Home = () => {
         </div>
       </section>
 
-      {isModalOpen && <Modal closeModal={closeModal} job={selectedJob} />}
+      {isModalOpen && (
+        <Modal closeModal={closeModal} job={selectedJob} type={modalType} />
+      )}
     </div>
   );
 };

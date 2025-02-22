@@ -9,7 +9,7 @@ import ProfileCard from "../components/ProfileCard";
 import JobService from "../services/jobsendpoints";
 import JobForm from "../components/FormJob";
 import JobDetail from "../components/JobDetail";
-import ConfirmDeleteModal from "../components/DeleteModal"; // Import the modal
+import ConfirmDeleteModal from "../components/DeleteModal"; 
 
 export default function ManageJobs() {
   const [jobs, setJobs] = useState([]);

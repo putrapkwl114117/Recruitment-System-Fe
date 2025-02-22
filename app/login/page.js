@@ -72,14 +72,14 @@ export default function LoginPage() {
 
       // Menyimpan user ID dan nama pengguna setelah login atau registrasi
       if (isRegister) {
-        localStorage.setItem("userId", response.user_id); // Menggunakan response.user_id
+        localStorage.setItem("userId", response.user_id); 
         localStorage.setItem("name", name);
         setIsRegister(false);
         setEmail("");
         setPassword("");
         setConfirmPassword("");
       } else {
-        localStorage.setItem("userId", response.user_id); // Menggunakan response.user_id
+        localStorage.setItem("userId", response.user_id); 
         localStorage.setItem("name", response.name || "Pengguna");
         router.push("/");
       }

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import JobService from "../services/jobsendpoints"; // Ensure the path is correct
+import JobService from "../services/jobsendpoints"; 
 
 const JobForm = ({ onClose, onSubmit, job }) => {
   const [description, setDescription] = useState("");
@@ -44,8 +44,8 @@ const JobForm = ({ onClose, onSubmit, job }) => {
 
       // Parse job.location to set selectedProvinsi and selectedKabupaten
       const [kabupaten, provinsi] = job.location.split(", ");
-      setSelectedProvinsi(provinsi); // Set provinsi
-      setSelectedKabupaten(kabupaten); // Set kabupaten
+      setSelectedProvinsi(provinsi);
+      setSelectedKabupaten(kabupaten); 
 
       handleProvinsiChange({ target: { value: provinsi } });
     }

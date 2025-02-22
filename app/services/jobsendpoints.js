@@ -1,6 +1,4 @@
 import axios from "axios";
-
-// API base URL Laravel
 const API_URL = "http://127.0.0.1:8000/api/jobs";
 
 const JobService = {
@@ -25,7 +23,6 @@ const JobService = {
       });
       return response.data;
     } catch (error) {
-      console.error("Error fetching jobs:", error.response ? error.response.data : error);
       throw error;
     }
   },
@@ -34,7 +31,6 @@ const JobService = {
   getJobById: async (id) => {
     try {
       const response = await axios.get(`${API_URL}/${id}`);
-      console.log("Job fetched:", response.data);
       return response.data;
     } catch (error) {
       console.error(`Error fetching job with ID ${id}:`, error.response ? error.response.data : error);
