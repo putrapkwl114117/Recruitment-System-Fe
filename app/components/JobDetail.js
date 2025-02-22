@@ -6,12 +6,14 @@ import {
   FaMapMarkerAlt,
   FaCalendarAlt,
   FaTags,
+  FaWindowClose
 } from "react-icons/fa";
 
 const JobDetail = ({ job, onClose }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
   if (!job) return null;
 
-  const [isExpanded, setIsExpanded] = useState(false);
   const words = job.description.split(" ");
   const shortDescription =
     words.slice(0, 50).join(" ") + (words.length > 50 ? "..." : "");
@@ -23,7 +25,7 @@ const JobDetail = ({ job, onClose }) => {
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-600 hover:text-red-500 text-xl font-bold"
         >
-          ?
+          <FaWindowClose className="text-red-500 mx-2 h-10 hover:text-red-700 cursor-pointer" />
         </button>
         <h2 className="text-3xl font-extrabold text-gray-800 border-b-2 pb-2 mb-4">
           {job.title}
@@ -69,7 +71,7 @@ const JobDetail = ({ job, onClose }) => {
           <div>
             <p className="text-gray-500 flex items-center">
               <FaBuilding className="mr-2" />
-              <strong>Company:</strong> {job.company}
+              <strong>Company:</strong> -
             </p>
             <p className="text-gray-500 flex items-center">
               <FaBriefcase className="mr-2" />

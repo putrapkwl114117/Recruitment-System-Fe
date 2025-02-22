@@ -132,8 +132,8 @@ const JobForm = ({ onClose, onSubmit, job }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form">
-      <div className="overflow-auto max-h-[75vh] p-2 bg-white border rounded-lg shadow-lg transition-transform transform translate-x-0">
+    <form onSubmit={handleSubmit} className="form ml-60 px-4 mr-60">
+      <div className="overflow-auto max-h-[75vh] max-w-[130vh] p-2 bg-white border rounded-lg shadow-lg transition-transform transform translate-x-0">
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
             Judul

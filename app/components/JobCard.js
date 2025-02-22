@@ -4,7 +4,7 @@ import { FaHeart, FaEdit, FaTrash } from "react-icons/fa";
 const JobCard = ({ job, onEdit, onDelete, onClick }) => {
   return (
     <div
-      className="relative bg-white shadow-md rounded-lg p-6 w-[320px] cursor-pointer"
+      className="relative bg-white shadow-md rounded-lg p-6 w-[310px] cursor-pointer"
       onClick={() => onClick(job)} 
     >
       <button className="absolute top-2 right-2 text-gray-400 hover:text-red-500">

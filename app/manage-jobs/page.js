@@ -125,20 +125,8 @@ export default function ManageJobs() {
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
       <div className="flex-1 p-4">
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mb-6 ml-60">
           <h1 className="text-3xl font-bold text-gray-800 ml-4">Manage Jobs</h1>
-          <div className="flex items-center bg-white border rounded-full overflow-hidden shadow-sm w-72 p-0 -mr-80">
-            <input
-              type="text"
-              placeholder="Cari Pekerjaan..."
-              className="p-3 flex-1 outline-none"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <button className="bg-blue-500 text-white p-3 rounded-full flex items-center justify-center">
-              <FaSearch className="text-lg" />
-            </button>
-          </div>
         </div>
 
         {message.text && (
@@ -151,7 +139,7 @@ export default function ManageJobs() {
           </div>
         )}
 
-        <div className="flex space-x-4 mb-6 ml-28">
+        <div className="flex space-x-4 mb-6 ml-60 ps-4 items-center">
           <button
             onClick={() => openForm()}
             className="bg-white text-black px-4 py-2 rounded-lg hover:bg-blue-500 hover:text-white shadow transition-colors duration-300"
@@ -170,6 +158,18 @@ export default function ManageJobs() {
           >
             Pendaftar
           </Link>
+          <div className="flex items-center bg-white border rounded-full overflow-hidden shadow-sm w-72 p-0 ">
+            <input
+              type="text"
+              placeholder="Cari Pekerjaan..."
+              className="p-3 flex-1 outline-none text-gray-500"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <button className="bg-blue-500 text-white p-3 rounded-full flex items-center justify-center">
+              <FaSearch className="text-lg" />
+            </button>
+          </div>
         </div>
 
         <div className="relative">
@@ -182,8 +182,13 @@ export default function ManageJobs() {
               job={editingJob}
             />
           ) : (
-            <div className="inline-grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-3 ml-4">
-              {jobs.map((job) => (
+            <div className="ml-60 px-4 inline-grid grid-cols-1 md:grid-cols-3 gap-y-2 gap-x-3 ml-4">
+              {jobs.length > 0 ? (
+                jobs
+                .filter((job) =>
+                  job.title.toLowerCase().includes(search.toLowerCase())
+                )
+                .map((job) => (
                 <JobCard
                   key={job.id}
                   job={job}
@@ -191,14 +196,17 @@ export default function ManageJobs() {
                   onDelete={() => handleDeleteJob(job.id)}
                   onClick={handleJobClick}
                 />
-              ))}
+              ))
+            ) : (
+              <p className="text-gray-500">Tidak ada pekerjaan yang ditemukan.</p>
+            )}
             </div>
           )}
         </div>
       </div>
 
       <div className="mb-0 mt-14 p-0">
-        <div className="mt-14 mr-16 p-0">
+        <div className="mt-10 mr-3 p-0 fixed right-0">
           <ProfileCard />
         </div>
       </div>

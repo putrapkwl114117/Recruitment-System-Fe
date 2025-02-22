@@ -69,7 +69,7 @@ const Home = () => {
             Temukan Peluang, <br />
             Wujudkan Karier Impian
           </h2>
-          <p className="text-gray-600 mt-4 max-w-4xl mx-auto text-center">
+          <p className="text-gray-600 mt-4 mb-6 max-w-4xl mx-auto text-center">
             Jelajahi berbagai peluang kerja yang sesuai dengan keahlian dan
             tujuan Anda.
             <br />
@@ -84,9 +84,9 @@ const Home = () => {
           {/* Tombol Posting Pekerjaan */}
           <Link
             href={checkLoginStatus() ? "/manage-jobs" : "/login"}
-            className="bg-blue-500 text-white px-6 py-4 rounded-full hover:bg-blue-700 transform hover:scale-110 hover:translate-y-2 transition-all duration-300 ease-in-out mt-4"
+            className="border-2 border-blue-500 shadow-lg text-blue-500 bg-transparent px-6 py-4 rounded-full hover:bg-blue-500 hover:text-white transition-all"
           >
-            Posting Pekerjaan
+            Posting Pekerjaan 🚀
           </Link>
         </div>
       </section>
