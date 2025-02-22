@@ -47,21 +47,20 @@ const Modal = ({ closeModal, job, type }) => {
                 {job.category}
               </span>
             </div>
-            <div className="text-gray-500 text-sm flex items-center py-2">
+            <div className="grid grid-cols-1 md:grid-cols-6 gap-2 text-gray-500 text-sm items-center py-2">
               <span className="flex items-center">
                 <FontAwesomeIcon icon={faClock} className="mr-2" />
                 {job.type}
               </span>
-              <span className="flex items-center ms-5">
+              <span className="flex items-center">
                 <FontAwesomeIcon icon={faSackDollar} className="mr-2" />
                 {job.salary}
               </span>
-              <span className="flex items-center ms-5">
-                <FontAwesomeIcon icon={faLocationDot} className="mr-2" />
-                {job.location}
-              </span>
             </div>
-            <div className="w-full bg-gray-100 h-[3px]"></div>
+            <span className="flex items-center text-gray-500 mt-1 text-sm border-b-2 pb-2">
+              <FontAwesomeIcon icon={faLocationDot} className="mr-2" />
+              {job.location}
+            </span>
             <p className="mt-4 text-[#555555] text-justify max-h-[200px] overflow-x-auto">
               <span className="font-semibold">DESKRIPSI:</span> <br />
               {showFullDescription
@@ -80,19 +79,18 @@ const Modal = ({ closeModal, job, type }) => {
           </>
         ) : null}
 
-        <div className="w-full bg-gray-100 h-[3px] my-4"></div>
-        <div className="flex justify-between mt-4">
-          <button
-            onClick={closeModal}
-            className="bg-blue-300 text-white px-4 py-2 rounded-full hover:bg-blue-700"
-          >
-            Close
-          </button>
+        <div className="flex justify-end mt-4 border-t-2 pt-2">
           <button
             onClick={handlePostJobClick}
             className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-700"
           >
             Daftar
+          </button>
+          <button
+            onClick={closeModal}
+            className="bg-red-500 text-white ml-2 px-4 py-2 rounded-full hover:bg-red-700"
+          >
+            Close
           </button>
         </div>
       </div>

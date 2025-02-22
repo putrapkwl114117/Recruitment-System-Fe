@@ -24,7 +24,7 @@ const JobCard = ({ job, openModal }) => {
           <p className="line-clamp-2">{job.description}</p>
         </div>
       </div>
-      <div className="text-gray-500 text-sm flex justify-end items-center p-3">
+      <div className="text-gray-500 text-sm flex justify-start items-center p-3">
         <span className="flex items-center">
           <FontAwesomeIcon icon={faClock} className="mr-2" />
           {job.type}
@@ -34,7 +34,7 @@ const JobCard = ({ job, openModal }) => {
           {job.salary}
         </span>
       </div>
-      <div className="text-gray-500 text-sm flex justify-end items-center px-3">
+      <div className="text-gray-500 text-sm flex justify-start items-center px-3">
         <span className="flex items-center justify-center">
           <FontAwesomeIcon icon={faLocationDot} className="mr-2" />
           {job.location}

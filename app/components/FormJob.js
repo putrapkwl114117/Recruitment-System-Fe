@@ -132,8 +132,8 @@ const JobForm = ({ onClose, onSubmit, job }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form ml-60 px-4 mr-60">
-      <div className="overflow-auto max-h-[75vh] max-w-[130vh] p-2 bg-white border rounded-lg shadow-lg transition-transform transform translate-x-0">
+    <form onSubmit={handleSubmit} className="form px-4">
+      <div className="overflow-auto max-h-[75vh] p-2 bg-white border rounded-lg shadow-lg transition-transform transform translate-x-0">
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
             Judul
@@ -255,22 +255,22 @@ const JobForm = ({ onClose, onSubmit, job }) => {
             required
           />
         </div>
-        <div className="flex justify-between">
+        <div className="flex justify-end">
+          <button
+            type="submit"
+            disabled={isLoading}
+            className={`bg-blue-500 mr-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
+              isLoading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+          >
+            {isLoading ? "Mengirim..." : "Simpan"}
+          </button>
           <button
             type="button"
             onClick={onClose}
             className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Kembali
-          </button>
-          <button
-            type="submit"
-            disabled={isLoading}
-            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
-              isLoading ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-          >
-            {isLoading ? "Mengirim..." : "Simpan"}
           </button>
         </div>
       </div>

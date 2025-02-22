@@ -2,10 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaPlusSquare, FaGlobe, FaListAlt } from "react-icons/fa";
 import Sidebar from "../components/Sidebar";
 import JobCard from "../components/JobCard";
-import ProfileCard from "../components/ProfileCard";
 import JobService from "../services/jobsendpoints";
 import JobForm from "../components/FormJob";
 import JobDetail from "../components/JobDetail";
@@ -122,92 +121,123 @@ export default function ManageJobs() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      <Sidebar />
-      <div className="flex-1 p-4">
-        <div className="flex justify-between items-center mb-6 ml-60">
-          <h1 className="text-3xl font-bold text-gray-800 ml-4">Manage Jobs</h1>
-        </div>
-
-        {message.text && (
-          <div
-            className={`mb-4 text-center font-bold ${
-              message.type === "success" ? "text-green-500" : "text-red-500"
-            }`}
-          >
-            {message.text}
+    <div className="flex flex-col lg:flex-row min-h-screen bg-gray-100">
+      <Sidebar className="w-full lg:w-1/4 bg-white shadow-md p-4 lg:sticky top-0 h-screen overflow-auto"/>
+      <div className="flex flex-1 mt-8 lg:mt-0 flex-col lg:flex-row px-0 p-4 gap-4 lg:ml-60">
+        <div className="w-full lg:w-3/4 p-4">
+          <h1 className="text-2xl font-bold text-gray-800 mb-4">Manage Jobs</h1>
+          <div className="flex flex-col md:flex-row md:items-center gap-2 mb-4">
+            <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
+              <button
+                onClick={() => openForm()}
+                className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600"
+              >
+                <FaPlusSquare /> Tambah Lowongan
+              </button>
+              <button
+                disabled
+                className="flex items-center gap-2 px-4 py-2 bg-gray-300 text-black rounded-lg shadow-md"
+              >
+                <FaGlobe /> Komunitas
+              </button>
+              <button
+                disabled
+                className="flex items-center gap-2 px-4 py-2 bg-gray-300 text-black rounded-lg shadow-md"
+              >
+                <FaListAlt /> Pendaftar
+              </button>
+            </div>
+            <div className="flex items-center bg-white rounded-full shadow-sm w-full md:w-72 overflow-hidden">
+              <input
+                type="text"
+                placeholder="Cari Pekerjaan..."
+                className="p-2 flex-1 outline-none bg-transparent text-gray-600"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <button className="bg-blue-500 text-white p-2 rounded-full">
+                <FaSearch />
+              </button>
+            </div>
           </div>
-        )}
 
-        <div className="flex space-x-4 mb-6 ml-60 ps-4 items-center">
-          <button
-            onClick={() => openForm()}
-            className="bg-white text-black px-4 py-2 rounded-lg hover:bg-blue-500 hover:text-white shadow transition-colors duration-300"
-          >
-            + Tambah Lowongan
-          </button>
-          <Link
-            href="#"
-            className="bg-white text-black px-4 py-2 rounded-lg hover:bg-blue-500 hover:text-white shadow transition-colors duration-300"
-          >
-            Komunitas
-          </Link>
-          <Link
-            href="#"
-            className="bg-white text-black px-4 py-2 rounded-lg hover:bg-blue-500 hover:text-white shadow transition-colors duration-300"
-          >
-            Pendaftar
-          </Link>
-          <div className="flex items-center bg-white border rounded-full overflow-hidden shadow-sm w-72 p-0 ">
-            <input
-              type="text"
-              placeholder="Cari Pekerjaan..."
-              className="p-3 flex-1 outline-none text-gray-500"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <button className="bg-blue-500 text-white p-3 rounded-full flex items-center justify-center">
-              <FaSearch className="text-lg" />
-            </button>
-          </div>
-        </div>
-
-        <div className="relative">
-          {selectedJob ? (
-            <JobDetail job={selectedJob} onClose={() => setSelectedJob(null)} />
-          ) : isFormVisible ? (
-            <JobForm
-              onClose={closeForm}
-              onSubmit={handleFormSubmit}
-              job={editingJob}
-            />
-          ) : (
-            <div className="ml-60 px-4 inline-grid grid-cols-1 md:grid-cols-3 gap-y-2 gap-x-3 ml-4">
+          <div className="flex-1 relative">
+            {selectedJob ? (
+              <JobDetail job={selectedJob} onClose={() => setSelectedJob(null)} />
+            ) : isFormVisible ? (
+              <JobForm
+                onClose={closeForm}
+                onSubmit={handleFormSubmit}
+                job={editingJob}
+              />
+            ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {jobs.length > 0 ? (
                 jobs
-                .filter((job) =>
-                  job.title.toLowerCase().includes(search.toLowerCase())
-                )
-                .map((job) => (
-                <JobCard
-                  key={job.id}
-                  job={job}
-                  onEdit={() => handleEditJob(job.id)}
-                  onDelete={() => handleDeleteJob(job.id)}
-                  onClick={handleJobClick}
-                />
-              ))
-            ) : (
-              <p className="text-gray-500">Tidak ada pekerjaan yang ditemukan.</p>
-            )}
+                  .filter((job) => job.title.toLowerCase().includes(search.toLowerCase()))
+                  .map((job) => (
+                    <JobCard
+                      key={job.id}
+                      job={job}
+                      onEdit={() => handleEditJob(job.id)}
+                      onDelete={() => handleDeleteJob(job.id)}
+                      onClick={handleJobClick}
+                    />
+                  ))
+              ) : (
+                <p className="text-gray-500">Tidak ada pekerjaan yang ditemukan.</p>
+              )}
             </div>
-          )}
+            )}
+          </div>
         </div>
-      </div>
+        
+        <div className="w-full lg:w-1/4 bg-white shadow-md p-2 mr-4 rounded-lg items-center">
+          <div className="max-w-lg w-full p-6">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+              Cara Menggunakan Manage Jobs
+            </h2>
 
-      <div className="mb-0 mt-14 p-0">
-        <div className="mt-10 mr-3 p-0 fixed right-0">
-          <ProfileCard />
+            <ul className="space-y-4 text-gray-700">
+              <li className="flex gap-3">
+                <span className="text-blue-500 text-lg">📌</span>
+                <span>
+                  <span className="font-semibold">Tambah Lowongan:</span> Klik tombol{" "}
+                  <span className="bg-blue-500 text-white px-2 py-1 rounded">Tambah Lowongan</span> 
+                  <br></br>
+                  untuk menambahkan pekerjaan baru.
+                </span>
+              </li>
+              <li className="flex gap-3">
+                <span className="text-yellow-500 text-lg">✏️</span>
+                <span>
+                  <span className="font-semibold">Edit Lowongan:</span> Klik tombol{" "}
+                  <span className="bg-yellow-500 text-white px-2 py-1 rounded">Edit</span> 
+                  untuk mengubah informasi lowongan.
+                </span>
+              </li>
+              <li className="flex gap-3">
+                <span className="text-red-500 text-lg">🗑️</span>
+                <span>
+                  <span className="font-semibold">Hapus Lowongan:</span> Klik tombol{" "}
+                  <span className="bg-red-500 text-white px-2 py-1 rounded">Hapus</span> 
+                  untuk menghapus lowongan yang tidak diperlukan.
+                </span>
+              </li>
+              <li className="flex gap-3">
+                <span className="text-green-500 text-lg">🔍</span>
+                <span>
+                  <span className="font-semibold">Lihat Detail Pekerjaan:</span> Klik salah satu kartu pekerjaan untuk melihat detail informasi.
+                </span>
+              </li>
+            </ul>
+
+            <div className="mt-8 p-4 bg-gray-100 border-l-4 border-blue-500">
+              <p className="text-gray-600">
+                Gunakan fitur ini untuk mengelola daftar pekerjaan dengan mudah dan efisien.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
