@@ -83,40 +83,34 @@ const JobForm = ({ onClose, onSubmit, job }) => {
 
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
+  e.preventDefault();
+  setIsLoading(true);
 
-    const plainText = description.trim();
-    if (!plainText) {
-      alert("Deskripsi wajib diisi!");
-      setIsLoading(false);
-      return;
-    }
-
-    const formData = {
-      title,
-      category: category === "lainnya" ? customCategory : category,
-      salary,
-      type,
-      location,
-      description,
-    };
-
-    try {
-      if (job) {
-        await JobService.updateJob(job.id, formData);
-      } else {
-        await JobService.createJob(formData);
-      }
-      onSubmit();
-    } catch (error) {
-      console.error("Error submitting job:", error.response?.data || error.message || error);
-      alert("Terjadi kesalahan saat menyimpan pekerjaan.");
-    } finally {
-      setIsLoading(false);
-      if (!job) resetForm();
-    }
+  const formData = {
+    title,
+    category: category === "lainnya" ? customCategory : category,
+    salary,
+    type,
+    location,
+    description,
   };
+
+  try {
+    let response;
+    if (job) {
+      response = await JobService.updateJob(job.id, formData);
+    } else {
+      response = await JobService.createJob(formData);
+    }
+
+    setIsLoading(false);
+    onSubmit(response.data); 
+  } catch (error) {
+    console.error("Gagal menyimpan pekerjaan:", error);
+    setIsLoading(false);
+  }
+};
+
 
   const resetForm = () => {
     setTitle("");

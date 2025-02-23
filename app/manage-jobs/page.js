@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { FaSearch, FaPlusSquare, FaGlobe, FaListAlt } from "react-icons/fa";
+import { FaSearch, FaPlusSquare, FaGlobe, FaListAlt, FaTimes,} from "react-icons/fa";
 import Sidebar from "../components/Sidebar";
 import JobCard from "../components/JobCard";
 import JobService from "../services/jobsendpoints";
@@ -20,6 +20,7 @@ export default function ManageJobs() {
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [jobToDelete, setJobToDelete] = useState(null);
   const [selectedJob, setSelectedJob] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const router = useRouter();
 
@@ -28,7 +29,7 @@ export default function ManageJobs() {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      console.error("User is not logged in.");
+      console.error("User  is not logged in.");
       router.push("/login");
       return;
     }
@@ -36,25 +37,30 @@ export default function ManageJobs() {
     if (storedUserId) {
       setUserId(storedUserId);
     } else {
-      console.error("User ID not found in local storage.");
+      console.error("User  ID not found in local storage.");
       return;
     }
 
-    JobService.getJobs(storedUserId)
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setJobs(data);
-        } else {
-          console.error("Invalid data format:", data);
-        }
-      })
-      .catch((error) => {
-        console.error(
-          "Failed to fetch jobs:",
-          error.response ? error.response.data : error
-        );
-      });
+    fetchJobs(storedUserId);
   }, []);
+
+  const fetchJobs = async (userId) => {
+    try {
+      const data = await JobService.getJobs(userId);
+      if (Array.isArray(data)) {
+        setJobs(data);
+      } else {
+        console.error("Invalid data format:", data);
+      }
+    } catch (error) {
+      console.error(
+        "Failed to fetch jobs:",
+        error.response ? error.response.data : error
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const openForm = (job = null) => {
     setIsFormVisible(true);
@@ -67,11 +73,12 @@ export default function ManageJobs() {
     setEditingJob(null);
   };
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = async () => {
     setMessage({
       text: "Pekerjaan berhasil ditambahkan atau diperbarui!",
       type: "success",
     });
+    await fetchJobs(userId); 
     setTimeout(() => {
       setMessage({ text: "", type: "" });
       closeForm();
@@ -122,9 +129,42 @@ export default function ManageJobs() {
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-gray-100">
-      <Sidebar className="w-full lg:w-1/4 bg-white shadow-md p-4 lg:sticky top-0 h-screen overflow-auto"/>
+      {isLoading && (
+        <div className="fixed inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50">
+          <div className="overlay-loading">
+            <div className="light-effect"></div>
+          </div>
+        </div>
+      )}
+      <Sidebar className="w-full lg:w-1/4 bg-white shadow-md p-4 lg:sticky top-0 h-screen overflow-auto" />
       <div className="flex flex-1 mt-8 lg:mt-0 flex-col lg:flex-row px-0 p-4 gap-4 lg:ml-60">
         <div className="w-full lg:w-3/4 p-4">
+          {message.text && (
+            <div
+              className="relative p-4 mb-4 text-white rounded-lg text-center"
+              style={{ maxWidth: "550px", margin: "0 auto" }}
+            >
+              <button
+                onClick={() => setMessage({ text: "", type: "" })} 
+                className="absolute top-5 right-3 text-white"
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                <FaTimes size={30} /> 
+              </button>
+              <div
+                className={`p-2 rounded-lg ${
+                  message.type === "success" ? "bg-green-500" : "bg-red-500"
+                }`}
+              >
+                {message.text}
+              </div>
+            </div>
+          )}
+
           <h1 className="text-2xl font-bold text-gray-800 mb-4">Manage Jobs</h1>
           <div className="flex flex-col md:flex-row md:items-center gap-2 mb-4">
             <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
@@ -161,9 +201,12 @@ export default function ManageJobs() {
             </div>
           </div>
 
-          <div className="flex-1 relative">
+          <div className="flex-1 relative p-0 m-0">
             {selectedJob ? (
-              <JobDetail job={selectedJob} onClose={() => setSelectedJob(null)} />
+              <JobDetail
+                job={selectedJob}
+                onClose={() => setSelectedJob(null)}
+              />
             ) : isFormVisible ? (
               <JobForm
                 onClose={closeForm}
@@ -171,27 +214,31 @@ export default function ManageJobs() {
                 job={editingJob}
               />
             ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {jobs.length > 0 ? (
-                jobs
-                  .filter((job) => job.title.toLowerCase().includes(search.toLowerCase()))
-                  .map((job) => (
-                    <JobCard
-                      key={job.id}
-                      job={job}
-                      onEdit={() => handleEditJob(job.id)}
-                      onDelete={() => handleDeleteJob(job.id)}
-                      onClick={handleJobClick}
-                    />
-                  ))
-              ) : (
-                <p className="text-gray-500">Tidak ada pekerjaan yang ditemukan.</p>
-              )}
-            </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-0">
+                {jobs.length > 0 ? (
+                  jobs
+                    .filter((job) =>
+                      job.title.toLowerCase().includes(search.toLowerCase())
+                    )
+                    .map((job) => (
+                      <JobCard
+                        key={job.id}
+                        job={job}
+                        onEdit={() => handleEditJob(job.id)}
+                        onDelete={() => handleDeleteJob(job.id)}
+                        onClick={handleJobClick}
+                      />
+                    ))
+                ) : (
+                  <p className="text-gray-500">
+                    Tidak ada pekerjaan yang ditemukan.
+                  </p>
+                )}
+              </div>
             )}
           </div>
         </div>
-        
+
         <div className="w-full lg:w-1/4 bg-white shadow-md p-2 mr-4 rounded-lg items-center">
           <div className="max-w-lg w-full p-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
@@ -247,6 +294,39 @@ export default function ManageJobs() {
         onConfirm={confirmDelete}
         onCancel={cancelDelete}
       />
+
+      <style jsx>{`
+        .overlay-loading {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(225, 255, 255, 0.5);
+          overflow: hidden;
+          z-index: 1000;
+        }
+        .light-effect {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.2),
+            rgba(255, 255, 255, 0.5),
+            rgba(255, 255, 255, 0.2)
+          );
+          animation: moveLight 2s linear infinite;
+        }
+        @keyframes moveLight {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(100%);
+          }
+        }
+      `}</style>
     </div>
   );
 }
