@@ -41,13 +41,9 @@ const JobForm = ({ onClose, onSubmit, job }) => {
         setCategory("lainnya");
         setCustomCategory(job.category);
       }
-
-      // Parse job.location to set selectedProvinsi and selectedKabupaten
-      const [kabupaten, provinsi] = job.location.split(", ");
-      setSelectedProvinsi(provinsi);
-      setSelectedKabupaten(kabupaten); 
-
-      handleProvinsiChange({ target: { value: provinsi } });
+      setSelectedProvinsi("");
+      setSelectedKabupaten("");
+      handleProvinsiChange({ target: { value: "" } });
     }
   }, [job]);
 
