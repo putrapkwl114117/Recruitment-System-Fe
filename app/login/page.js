@@ -23,7 +23,7 @@ export default function LoginPage() {
   const testimonials = [
     {
       name: "Mitha Aprilia",
-      text: "Platform ini membantu saya mendapatkan pekerjaan impian saya dalam seminggu!",
+      text: "Platform ini membantu saya mengasah skill impian saya dalam seminggu!",
     },
     {
       name: "Azahra",
@@ -78,11 +78,18 @@ export default function LoginPage() {
         setEmail("");
         setPassword("");
         setConfirmPassword("");
-      } else {
-        localStorage.setItem("userId", response.user_id); 
-        localStorage.setItem("name", response.name || "Pengguna");
-        router.push("/");
-      }
+      }  else {
+            localStorage.setItem("userId", response.user_id); 
+            localStorage.setItem("name", response.name || "Pengguna");
+            localStorage.setItem("role", response.role); 
+
+            if (response.role === "hr") {
+              router.push("/dashboard-winacode-recruitment-system");
+            } else {
+              router.push("/");
+            }
+          }
+
     } catch (err) {
       console.error("Error dari API:", err);
       if (err.response) {
@@ -105,16 +112,15 @@ export default function LoginPage() {
             href="/"
             className="text-white text-xl font-bold hover:underline"
           >
-            KITA BANTU
+            WINNA CODE
           </Link>
         </div>
 
         <h2 className="text-3xl font-bold text-white">
-          Temukan Pekerjaan Impianmu
+          Bergabunglah Bersama Kami
         </h2>
         <p className="text-white mt-4">
-          Kami membantu ribuan orang mendapatkan pekerjaan terbaik sesuai
-          keahlian mereka.
+          Dapatkan Pengalaman Dunia Kerja yang Inklusif  Untuk perkembangan Karir Anda!!!.
         </p>
 
         {/* TESTIMONI */}

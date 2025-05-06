@@ -7,38 +7,45 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const JobCard = ({ job, openModal }) => {
+  const imageUrl = job.image.startsWith("http")
+    ? job.image
+    : `http://127.0.0.1:8000/${job.image}`;
+
   return (
     <div
       onClick={() => openModal("jobDetails", job)}
-      className="p-2 bg-[#F8FAFB] shadow-md rounded-xl hover:bg-gradient-to-br hover:from-[#80d1ff] to-[#80d1ff] transition duration-300"
+      className="cursor-pointer bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 border hover:border-blue-300"
     >
-      <div className="p-6 bg-white rounded-xl">
-        <div className="flex justify-between items-center">
-          <h3 className="text-blue-500 text-xl font-semibold">{job.title}</h3>
-          <span className="flex text-center text-gray-600 bg-gray-100 p-2 rounded-lg">
+      {job.image && (
+        <img
+          src={imageUrl}
+          alt={job.title}
+          className="h-40 w-full object-cover rounded-t-2xl"
+        />
+      )}
+
+      <div className="p-5 space-y-3">
+        <div className="flex justify-between items-start">
+          <h3 className="text-lg font-semibold text-gray-800">{job.title}</h3>
+          <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-md">
             {job.category}
           </span>
         </div>
-        <div className="w-full bg-gray-100 h-[3px] my-4"></div>
-        <div className="flex mt-3 text-gray-500">
-          <p className="line-clamp-2">{job.description}</p>
+
+        <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+          <span className="flex items-center gap-1">
+            <FontAwesomeIcon icon={faClock} />
+            {job.type}
+          </span>
+          <span className="flex items-center gap-1">
+            <FontAwesomeIcon icon={faSackDollar} />
+            {job.salary}
+          </span>
+          <span className="flex items-center gap-1">
+            <FontAwesomeIcon icon={faLocationDot} />
+            {job.location}
+          </span>
         </div>
-      </div>
-      <div className="text-gray-500 text-sm flex justify-start items-center p-3">
-        <span className="flex items-center">
-          <FontAwesomeIcon icon={faClock} className="mr-2" />
-          {job.type}
-        </span>
-        <span className="flex items-center ms-4">
-          <FontAwesomeIcon icon={faSackDollar} className="mr-2" />
-          {job.salary}
-        </span>
-      </div>
-      <div className="text-gray-500 text-sm flex justify-start items-center px-3">
-        <span className="flex items-center justify-center">
-          <FontAwesomeIcon icon={faLocationDot} className="mr-2" />
-          {job.location}
-        </span>
       </div>
     </div>
   );

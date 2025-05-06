@@ -56,16 +56,16 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen py-2 bg-white">
       <Navbar />
 
-      <section className="relative min-h-screen flex flex-col justify-center items-center text-center px-5 bg-gradient-to-br from-[#f0f9ff] via-[#d1e9ff] to-[#a3c8ff] overflow-hidden">
+      <section className="relative min-h-[75vh] flex flex-col justify-center items-center text-center px-7  bg-gradient-to-br from-[#fff0fa] via-[#e7d1ff] to-[#ffa3eb] overflow-hidden">
         <div
           className="absolute inset-0 bg-no-repeat bg-bottom bg-cover bg-contain"
           style={{ backgroundImage: "url('/lines.svg')" }}
         />
         <div className="relative z-10">
-          <h2 className="text-4xl md:text-6xl font-extrabold text-gray-800 tracking-wide font-serif">
+          <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-800 tracking-wide font-serif">
             Temukan Peluang, <br />
             Wujudkan Karier Impian
           </h2>
@@ -73,12 +73,12 @@ const Home = () => {
             Jelajahi berbagai peluang kerja yang sesuai dengan keahlian dan
             tujuan Anda.
             <br />
-            Ingin merekrut tenaga profesional atau menawarkan jasa?{" "}
+            Wujudkan Bersama Kami di PT Winni Code, Garuda Teknolog{" "}
             <span className="font-semibold text-blue-600">
               {" "}
-              Posting pekerjaan
+              Daftarkan Dirimu
             </span>{" "}
-            Anda sekarang!
+            Sekarang!
           </p>
 
           {/* Tombol Posting Pekerjaan */}
@@ -86,7 +86,7 @@ const Home = () => {
             href={checkLoginStatus() ? "/manage-jobs" : "/login"}
             className="border-2 border-blue-500 shadow-lg text-blue-500 bg-transparent px-6 py-4 rounded-full hover:bg-blue-500 hover:text-white transition-all"
           >
-            Posting Pekerjaan 🚀
+            Lihat Lowongan 🚀
           </Link>
         </div>
       </section>

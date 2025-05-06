@@ -12,8 +12,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Bantu App",
-  description: "Aplikasi Next.js untuk Chalange",
+  title: "Recruitment System",
+  description: "Recrutment System for PT  Winni Code",
   icons: {
     icon: "/bv.ico",
     // shortcut: "/logo.png",

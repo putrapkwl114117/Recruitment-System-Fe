@@ -32,13 +32,11 @@ export default function Navbar() {
   return (
     <nav className="bg-white shadow-md fixed w-full top-0 left-0 z-50">
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-blue-500">Kita Bantu</h1>
+        <h1 className="text-2xl font-bold text-blue-500">Winni Code</h1>
 
         <ul className="hidden md:flex space-x-6">
           {[
             { href: "/", label: "Cari Pekerjaan" },
-            { href: "/", label: "Perusahaan" },
-            { href: "/", label: "Cara Kerja" },
             { href: "/", label: "Blog" },
             { href: "/", label: "Kontak" },
           ].map((item, index) => (
@@ -66,15 +64,6 @@ export default function Navbar() {
                 {showMenu && (
                   <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg">
                     <ul className="py-2">
-                      <li>
-                        <Link
-                          href="/manage-jobs"
-                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                          onClick={() => setShowMenu(false)}
-                        >
-                          Manage Job
-                        </Link>
-                      </li>
                       <li>
                         <Link
                           href="/manage-jobs"
