@@ -1,7 +1,6 @@
-// components/Sidebar.jsx
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import {
   HomeIcon,
@@ -12,18 +11,43 @@ import {
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
 
-export default function Sidebar({ activeMenu }) {
+export default function Sidebar() {
   const router = useRouter();
+  const pathname = usePathname();
 
-  const handleMenuClick = (menu) => {
-    router.push(`?menu=${menu}`, { shallow: true });
-  };
+  const menuItems = [
+    {
+      name: "Dashboard",
+      icon: <HomeIcon className="h-6 w-6" />,
+      path: "/dashboard-winacode-recruitment-system",
+    },
+    {
+      name: "Applicants",
+      icon: <UserGroupIcon className="h-6 w-6" />,
+      path: "/dashboard-winacode-recruitment-system/applicants",
+    },
+    {
+      name: "CV & Portfolio",
+      icon: <DocumentTextIcon className="h-6 w-6" />,
+      path: "/dashboard-winacode-recruitment-system/cv-portfolio",
+    },
+    {
+      name: "Job Board",
+      icon: <BriefcaseIcon className="h-6 w-6" />,
+      path: "/dashboard-winacode-recruitment-system/jobs-board",
+    },
+    {
+      name: "Schedule",
+      icon: <CalendarDaysIcon className="h-6 w-6" />,
+      path: "/dashboard-winacode-recruitment-system/schedule",
+    },
+  ];
 
   return (
-    <aside className="w-64 h-screen bg-slate-50 text-gray-700 px-4 py-2 flex flex-col justify-between fixed">
+    <aside className="w-60 h-screen bg-slate-50 text-gray-700 px-4 py-2 flex flex-col justify-between fixed">
       <div>
         {/* Logo */}
-        <div className="flex justify-start -mt-10">
+        <div className="flex justify-start -mt-14">
           <Link href="/">
             <Image
               src="/img/logo.png"
@@ -35,58 +59,29 @@ export default function Sidebar({ activeMenu }) {
           </Link>
         </div>
 
-        {/* Menu Items */}
-        <nav className="space-y-4 ml-6 -mt-6">
-          <button
-            onClick={() => handleMenuClick("dashboard")}
-            className={
-              activeMenu === "dashboard"
-                ? "text-blue-600 flex items-center space-x-3 "
-                : "hover:text-blue-500 text-gray-600 flex items-center space-x-3"
-            }
-          >
-            <HomeIcon className="h-5 w-5" />
-            <span>Dashboard</span>
-          </button>
-          <Link
-            href="#"
-            className="flex items-center space-x-3 hover:text-blue-500"
-          >
-            <UserGroupIcon className="h-5 w-5" />
-            <span>Applicants</span>
-          </Link>
-          <Link
-            href="#"
-            className="flex items-center space-x-3 hover:text-blue-500"
-          >
-            <DocumentTextIcon className="h-5 w-5" />
-            <span>CV & Portfolio</span>
-          </Link>
-          <button
-            onClick={() => handleMenuClick("jobBoard")}
-            className={
-              activeMenu === "jobBoard"
-                ? "text-blue-600 flex items-center space-x-3"
-                : "hover:text-blue-500 text-gray-600 flex items-center space-x-3"
-            }
-          >
-            <BriefcaseIcon className="h-5 w-5" />
-            <span>Job Board</span>
-          </button>
-          <Link
-            href="#"
-            className="flex items-center space-x-3 hover:text-blue-500"
-          >
-            <CalendarDaysIcon className="h-5 w-5" />
-            <span>Schedule</span>
-          </Link>
+        {/* Menu */}
+        <nav className="space-y-5 ml-6 -mt-6">
+          {menuItems.map((item) => (
+            <button
+              key={item.name}
+              onClick={() => router.push(item.path)}
+              className={`flex items-center space-x-3 font-semibold text-md ${
+                pathname === item.path
+                  ? "text-blue-600"
+                  : "text-gray-600 hover:text-blue-500"
+              }`}
+            >
+              {item.icon}
+              <span>{item.name}</span>
+            </button>
+          ))}
         </nav>
       </div>
 
-      {/* Settings Menu at Bottom */}
+      {/* Settings */}
       <div className="mt-8">
         <Link
-          href="#"
+          href="/dashboard-winacode-recruitment-system/settings"
           className="flex items-center space-x-3 hover:text-blue-500"
         >
           <Cog6ToothIcon className="h-5 w-5" />
